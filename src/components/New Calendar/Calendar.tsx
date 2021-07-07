@@ -68,7 +68,7 @@ export const Calendar = ({
 
     return (
         <Layout style={styles.layout}>
-            <Text style={{ padding: 5 }}>
+            <Text category="h1" style={{ padding: 5 }}>
                 {displayedMonth.toLocaleString('default', { month: 'long' })}{' '}
                 {displayedMonth.getFullYear()}
             </Text>

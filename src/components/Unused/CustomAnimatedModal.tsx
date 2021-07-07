@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { Modal } from '@ui-kitten/components';
-import { windowWidth, windowHeight } from '../shared/constants';
-import { RequestSwapStack } from '../navigation/RequestSwap/RequestSwapStack';
+import { windowWidth, windowHeight } from '../../shared/constants';
+import { RequestSwapStack } from '../../navigation/RequestSwap/RequestSwapStack';
 
 interface CustomAnimatedModalProps {
     isVisible: boolean;
@@ -10,7 +10,7 @@ interface CustomAnimatedModalProps {
     layoutHeight: number;
     children?;
 }
-
+//unused
 export const CustomAnimatedModal = (props: CustomAnimatedModalProps) => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
 

@@ -51,16 +51,25 @@ export const Carousel = React.memo(
         };
 
         const renderMonths = ({ item, index }) => {
-            const [isLeap, year, month] = useStringDate(item);
+            // const [isLeap, year, month] = useStringDate(item);
 
             return (
                 <Card
                     header={() => (
-                        <Text style={{ paddingLeft: 20 }} category="h5">
-                            {months(isLeap)[month].name} {year}
+                        <Text
+                            style={{
+                                paddingLeft: 20,
+                            }}
+                            category="h1"
+                        >
+                            {item.toLocaleDateString('en-US', {
+                                month: 'long',
+                                year: 'numeric',
+                            })}
                         </Text>
                     )}
                     appearance="filled"
+                    activeOpacity={1}
                     style={{
                         width: '100%',
                         height: calendarCardDimensions.height,

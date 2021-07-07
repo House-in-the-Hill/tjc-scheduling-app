@@ -4,6 +4,10 @@ import { Layout, Text, Icon, Button } from '@ui-kitten/components';
 import { useDispatch } from 'react-redux';
 import { setSwapConfig } from '../../store/actions/swapActions';
 import { SelectCard } from '../../components/SelectCard';
+import { CustomButton, buttonTypes } from '../../components/CustomButton';
+import User1 from '../../assets/Svgs/User1.svg';
+import User4 from '../../assets/Svgs/User4.svg';
+import ThreeUsers from '../../assets/Svgs/ThreeUsers.svg';
 
 interface SelectSwapOptionProps {
     navigation;
@@ -12,6 +16,8 @@ interface SelectSwapOptionProps {
 
 export const SelectSwapOption = (props: SelectSwapOptionProps) => {
     //TODO hook up these choices to do their intended purpose
+    //maybbe rephrase some of these
+    //try to line up icons?
     const [selectedIndex1, setSelectedIndex1] = useState(0);
     const [selectedIndex2, setSelectedIndex2] = useState(0);
 
@@ -31,29 +37,28 @@ export const SelectSwapOption = (props: SelectSwapOptionProps) => {
         props.navigation.navigate('SwapScreen');
     };
 
-    const iconSet1 = () => (
+    const iconSetSwap = () => (
         <View style={{ flexDirection: 'row' }}>
-            <Icon name="person" {...iconSettings} />
+            {/* <Icon name="person" {...iconSettings} /> */}
+            <User1 {...iconSettings} />
             <Icon name="swap" {...iconSettings} />
-            <Icon name="person" {...iconSettings} />
+            <User4 {...iconSettings} />
         </View>
     );
 
-    const iconSet2 = () => (
+    const iconSetReplace = () => (
         <View style={{ flexDirection: 'row' }}>
-            <Icon name="person" {...iconSettings} />
+            <User1 {...iconSettings} />
             <Icon name="arrow-forward" {...iconSettings} />
-            <Icon name="person" {...iconSettings} />
+            <User4 {...iconSettings} />
         </View>
     );
 
-    const iconSet3 = () => <Icon name="person" {...iconSettings} />;
+    const iconSetPerson = () => <User4 {...iconSettings} />;
 
-    const iconSet4 = () => (
-        <View style={{ flexDirection: 'row' }}>
-            <Icon name="person" {...iconSettings} />
-            <Icon name="person" {...iconSettings} />
-            <Icon name="person" {...iconSettings} />
+    const iconSetAnyone = () => (
+        <View style={{ paddingLeft: 20 }}>
+            <ThreeUsers height={50} width={50} />
         </View>
     );
 
@@ -68,17 +73,19 @@ export const SelectSwapOption = (props: SelectSwapOptionProps) => {
     return (
         <Layout style={styles.layout}>
             <View style={styles.cardContainer}>
-                <Text>Would you like to</Text>
+                <Text category="h1" style={{ paddingBottom: 10 }}>
+                    Would you like to
+                </Text>
                 <SelectCard
                     displayedText={'Switch duty with someone'}
-                    bottomRow={iconSet1}
+                    icons={iconSetSwap}
                     onPressHandler={onCardPress1}
                     cardIndex={0}
                     selectedIndex={selectedIndex1}
                 />
                 <SelectCard
                     displayedText="Have your duty replaced"
-                    bottomRow={iconSet2}
+                    icons={iconSetReplace}
                     onPressHandler={onCardPress1}
                     cardIndex={1}
                     selectedIndex={selectedIndex1}
@@ -86,25 +93,30 @@ export const SelectSwapOption = (props: SelectSwapOptionProps) => {
             </View>
 
             <View style={styles.cardContainer}>
-                <Text>Is this request for</Text>
+                <Text category="h1" style={{ paddingBottom: 10 }}>
+                    Is this request for
+                </Text>
                 <SelectCard
                     displayedText="Specific time or person"
-                    bottomRow={iconSet3}
+                    icons={iconSetPerson}
                     onPressHandler={onCardPress2}
                     cardIndex={0}
                     selectedIndex={selectedIndex2}
                 />
                 <SelectCard
-                    displayedText="Anyone, as long as my duty is replaced"
-                    bottomRow={iconSet4}
+                    displayedText="Anyone, as long as \nmy duty is replaced"
+                    icons={iconSetAnyone}
                     onPressHandler={onCardPress2}
                     cardIndex={1}
                     selectedIndex={selectedIndex2}
                 />
             </View>
-            <Button style={{ width: 130, margin: 5 }} onPress={onNextHandler}>
-                Next
-            </Button>
+            <CustomButton
+                type={buttonTypes.CONFIRM}
+                styling={{ height: 57, width: 300 }}
+                text="Next"
+                onPress={onNextHandler}
+            />
         </Layout>
     );
 };

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { View } from 'react-native';
 
+//unused
 function useOutsideAlerter(ref) {
     useEffect(() => {
         /**

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -15,7 +15,7 @@ import {
     swapReducer,
     notificationsReducer,
 } from './src/store/reducers';
-
+import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
 Notifications.setNotificationHandler({
     //lets os know what to do with notification before its displayed to user
@@ -50,14 +50,23 @@ export const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
     return Font.loadAsync({
-        'Roboto-Bold': require('./src/assets/Fonts/Roboto-Bold.ttf'),
-        'Roboto-Italic': require('./src/assets/Fonts/Roboto-Italic.ttf'),
-        'Roboto-Regular': require('./src/assets/Fonts/Roboto-Regular.ttf'),
-        'OpenSans-Regular': require('./src/assets/Fonts/OpenSans-Regular.ttf'),
-        'OpenSans-Bold': require('./src/assets/Fonts/OpenSans-Bold.ttf'),
-        'OpenSans-SemiBold': require('./src/assets/Fonts/OpenSans-SemiBold.ttf'),
+        'SourceSansPro-Light': require('./src/assets/Fonts/SourceSansPro-Light.ttf'),
+        'SourceSansPro-Regular': require('./src/assets/Fonts/SourceSansPro-Regular.ttf'),
+        'SourceSansPro-Bold': require('./src/assets/Fonts/SourceSansPro-Bold.ttf'),
+        'SourceSansPro-Italic': require('./src/assets/Fonts/SourceSansPro-Italic.ttf'),
     });
 };
+
+//this needs work
+// const prefetchImages = () => Image.prefetch('../../assets/images/JleeProfilePic.jpg');
+
+// const preloadAssets = () => {
+//     return Promise.all([fetchFonts, prefetchImages]).then((stuff) =>
+//         console.log('stuff', stuff),
+//     );
+// };
+
+// preloadAssets();
 
 const App: React.FC = () => {
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -87,7 +96,8 @@ const App: React.FC = () => {
                     theme={ui[theme]}
                     customMapping={mapping} //fonts
                 >
-                    <View style={styles.app}>
+                    <View style={{ flex: 1 }}>
+                        <StatusBar />
                         <AppNavigation />
                     </View>
                 </ApplicationProvider>

@@ -12,7 +12,7 @@ interface Props {
     onPressScroll: (index) => void;
     cardIndex: number;
 }
-
+//unused apparently
 export const CalendarCard = React.memo((props: Props) => {
     const { tasks, displayedDate } = props;
     const isLeap = displayedDate.getFullYear() % 4 === 0 ? true : false;
@@ -23,7 +23,8 @@ export const CalendarCard = React.memo((props: Props) => {
         <Card
             header={() => (
                 <Text style={{ paddingLeft: 20 }} category="h5">
-                    {months(isLeap)[month].name} {year}
+                    {/* {months(isLeap)[month].name} {year} */}
+                    {/* {displayedDate.toLocaleDateString('en-US')} */}
                 </Text>
             )}
             appearance="filled"

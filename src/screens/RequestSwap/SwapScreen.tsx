@@ -6,10 +6,112 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { isSameDate } from '../../services/Calendar/helper_functions';
 import { DatePicker } from '../../components/New Calendar/DatePicker';
 import { populateCandidates, populateTimes } from './swapHelper';
+import { CustomButton, buttonTypes } from '../../components/CustomButton';
+import {
+    coloredBackgroundGradient1,
+    coloredBackgroundGradient2,
+    nameCardShadowColorHighlighted,
+    nameCardShadowColorNeutral,
+    optionCardBorderColor,
+} from '../../ui/colors';
+import { LinearGradient } from 'expo-linear-gradient';
+import User1 from '../../assets/Svgs/User1.svg';
+import User4 from '../../assets/Svgs/User4.svg';
+
+const dummyCandidates = [
+    {
+        firstName: 'Ted',
+        lastName: 'Chen',
+        id: 5,
+        tasks: [
+            {
+                church: {
+                    churchId: 3,
+                    name: 'Elizabeth',
+                },
+                createdAt: '2020-10-04T01:07:23.900Z',
+                date: '2020-08-21T14:30:00.000Z',
+                role: {
+                    name: 'RE',
+                },
+                roleId: 4,
+                taskId: 5,
+                user: {
+                    firstName: 'Shaun',
+                    lastName: 'Tung',
+                },
+                userId: 1,
+            },
+            {
+                church: {
+                    churchId: 1,
+                    name: 'Hillsborough',
+                },
+                createdAt: '2020-10-04T01:07:23.900Z',
+                date: '2020-08-21T14:30:00.000Z',
+                role: {
+                    name: 'AV',
+                },
+                roleId: 1,
+                taskId: 2,
+                user: {
+                    firstName: 'Shaun',
+                    lastName: 'Tung',
+                },
+                userId: 1,
+            },
+        ],
+    },
+    {
+        firstName: 'Mike',
+        lastName: 'Chen',
+        id: 5,
+        tasks: [
+            {
+                church: {
+                    churchId: 3,
+                    name: 'Elizabeth',
+                },
+                createdAt: '2020-10-04T01:07:23.900Z',
+                date: '2020-08-21T14:30:00.000Z',
+                role: {
+                    name: 'RE',
+                },
+                roleId: 4,
+                taskId: 5,
+                user: {
+                    firstName: 'Shaun',
+                    lastName: 'Tung',
+                },
+                userId: 1,
+            },
+            {
+                church: {
+                    churchId: 1,
+                    name: 'Hillsborough',
+                },
+                createdAt: '2020-10-04T01:07:23.900Z',
+                date: '2020-08-21T14:30:00.000Z',
+                role: {
+                    name: 'AV',
+                },
+                roleId: 1,
+                taskId: 2,
+                user: {
+                    firstName: 'Shaun',
+                    lastName: 'Tung',
+                },
+                userId: 1,
+            },
+        ],
+    },
+];
 
 export const SwapScreen = (props) => {
-    //TODO: sort candidates alphabetically before here, maybe server side?
-    const swapCandidates = useSelector((state) => state.swapReducer.candidates || []);
+    // TODO: sort candidates alphabetically before here, maybe server side?
+    // Display message "nothing meets search criteria"
+    // const swapCandidates = useSelector((state) => state.swapReducer.candidates || []);
+    const swapCandidates = dummyCandidates;
     const [selectedPeopleIndices, setSelectedPeopleIndices] = useState<IndexPath[]>([]);
     const [selectedTimeIndices, setSelectedTimeIndices] = useState<IndexPath[]>([]);
     const [selectedDates, setSelectedDates] = useState([]);
@@ -104,12 +206,14 @@ export const SwapScreen = (props) => {
                 activeOpacity={1}
             >
                 <Icon name="person-outline" {...iconProps} />
-                <Text>
+                <Text category="h3">
                     {item.user.firstName} {item.user.lastName}
                 </Text>
                 <View style={{ flexDirection: 'column' }}>
-                    {/* <Text>{item.role.name}</Text> */}
-                    <Text>{new Date(item.date).toLocaleDateString('en-US')}</Text>
+                    <Text category="h3">{item.role.name}</Text>
+                    <Text category="h3">
+                        {new Date(item.date).toLocaleDateString('en-US')}
+                    </Text>
                 </View>
             </TouchableOpacity>
         );
@@ -137,12 +241,19 @@ export const SwapScreen = (props) => {
     return (
         <Layout style={styles.layout}>
             <View style={styles.textContainer}>
-                <Text>Select one or more workers to request</Text>
-                <Text>an exchange of duty times</Text>
-                <View style={{ flexDirection: 'row' }}>
-                    <Icon name="person" {...iconProps} />
+                <Text category="h3">Select one or more workers to request</Text>
+                <Text category="h3">an exchange of duty times</Text>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                        width: '35%',
+                        marginTop: 5,
+                    }}
+                >
+                    <User1 {...iconProps} />
                     <Icon name="swap" {...iconProps} />
-                    <Icon name="person" {...iconProps} />
+                    <User4 {...iconProps} />
                 </View>
             </View>
             <View style={styles.filterContainer}>
@@ -180,21 +291,29 @@ export const SwapScreen = (props) => {
                     {times}
                 </Select>
             </View>
-            <View style={styles.listContainer}>
+
+            <LinearGradient
+                colors={[coloredBackgroundGradient1, coloredBackgroundGradient2]}
+                style={styles.listContainer}
+            >
                 <FlatList
                     data={filteredTasks}
                     renderItem={renderTaskList}
                     keyExtractor={(item) => `${item.date} ${item.id} ${item.taskId}`}
                     showsVerticalScrollIndicator={false}
                 />
-                <Button
-                    style={{ margin: 10, width: 130 }}
+
+                <CustomButton
+                    text="Next"
+                    styling={{ height: 42, width: 180 }}
                     onPress={onNextHandler}
-                    disabled={selectedTasks.length > 0 ? false : true}
-                >
-                    Next
-                </Button>
-            </View>
+                    type={
+                        // selectedTasks.length > 0
+                        buttonTypes.CONFIRM
+                        // : buttonTypes.DISABLED
+                    }
+                />
+            </LinearGradient>
         </Layout>
     );
 };
@@ -203,23 +322,23 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         alignItems: 'center',
+        backgroundColor: 'white',
     },
     filterContainer: {
-        height: '25%',
+        flex: 1,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10,
+        padding: 5,
     },
     listContainer: {
-        flex: 1,
+        flex: 6,
         width: '100%',
         zIndex: -1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(108, 207, 212)',
-        borderTopLeftRadius: 20,
+        borderTopLeftRadius: 20, //TODO figure out why these dont work
         borderTopRightRadius: 20,
         padding: 30,
     },
@@ -227,6 +346,7 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 10,
     },
     listItem: {
         width: 330,
@@ -239,22 +359,23 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
 
-        //TODO i need a better shadow system
-        shadowColor: '#000',
+        shadowColor: nameCardShadowColorNeutral,
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 2,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.5,
+        shadowRadius: 4 / 2,
 
         elevation: 3,
     },
     selectedItem: {
-        borderColor: 'rgb(127, 15, 239)',
+        borderColor: optionCardBorderColor,
         borderWidth: 2,
         backgroundColor: 'white',
         margin: 5,
         padding: 4,
+        shadowColor: nameCardShadowColorHighlighted,
+        shadowRadius: 10 / 2,
     },
 });

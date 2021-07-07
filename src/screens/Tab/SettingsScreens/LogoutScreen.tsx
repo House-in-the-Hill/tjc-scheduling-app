@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
 import { logout } from '../../../store/actions';
-import { Screen } from '../../../components/Screen';
+import { Screen } from '../../../components/Unused/Screen';
 import { Layout } from '@ui-kitten/components';
 import { openDrawerAction } from '../../../shared/components';
 

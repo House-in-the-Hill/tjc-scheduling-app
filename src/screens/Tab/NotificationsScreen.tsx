@@ -4,22 +4,18 @@ import { FlatList, StyleSheet, LayoutAnimation, Platform, UIManager } from 'reac
 import { useSelector } from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import SwipeableItem from '../../components/SwipeableItem';
-import { NewAssignmentItem } from '../../components/NewAssignments/NewAssignmentItem';
-import { FeedItem } from '../../components/ListItems/FeedItem';
+import { NotificationItem } from '../../components/ListItems/NotificationItem';
 import { windowWidth } from '../../shared/constants';
 
-interface ActivityFeedProps {
+interface NotificationsProps {
     route;
     navigation;
     onSwipe;
 }
 
-if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental &&
-        UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental?.(true);
 
-export const ActivityFeedScreen = (props: ActivityFeedProps) => {
+export const NotificationsScreen = ({ navigation }: NotificationsProps) => {
     const notifications = useSelector(
         (state) => state.notificationsReducer.notifications,
     );
@@ -45,7 +41,7 @@ export const ActivityFeedScreen = (props: ActivityFeedProps) => {
             itemId={item.notificationId}
             leftIcon={leftIcon}
         >
-            <FeedItem item={item} />
+            <NotificationItem item={item} navigation={navigation} />
         </SwipeableItem>
     );
 
@@ -64,7 +60,7 @@ export const ActivityFeedScreen = (props: ActivityFeedProps) => {
                         data={data}
                         renderItem={renderItem}
                         keyExtractor={(item, index) =>
-                            `ActivityFeed ${item.notificationId}${index}`
+                            `Notification ${item.notificationId}${index}`
                         }
                         decelerationRate={0.1}
                     />
@@ -79,5 +75,7 @@ export const ActivityFeedScreen = (props: ActivityFeedProps) => {
 const styles = StyleSheet.create({
     layout: {
         flex: 1,
+        paddingTop: 20,
+        width: '100%',
     },
 });

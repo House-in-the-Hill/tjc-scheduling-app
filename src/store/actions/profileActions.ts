@@ -16,7 +16,7 @@ export const setProfile = (profile) => {
 
 //maybe move somewhere else?
 function getProfile(userId, accesskey) {
-    return axios.get(secretIp + `/api/users/${userId}`, {
+    return axios.get(secretIp + `/api/user/${userId}`, {
         // headers: {
         //     authorization: accesskey,
         // },

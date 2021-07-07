@@ -21,6 +21,10 @@
         },
         "android": {
             "useNextNotificationsApi": true
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": ["svg"]
         }
     }
 }

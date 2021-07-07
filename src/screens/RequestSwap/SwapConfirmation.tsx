@@ -4,24 +4,26 @@ import { Layout, Text, Button, Icon } from '@ui-kitten/components';
 import { useSelector } from 'react-redux';
 import { LoadStateActionTypes } from '../../store/actions';
 import { Card } from '../../components/Card';
+import { CustomButton, buttonTypes } from '../../components/CustomButton';
+import { coloredBackgroundGradient1, coloredBackgroundGradient2 } from '../../ui/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 
+//TODO: configure error message if request was unsuccessful
+//TODO: missing dove asset
 export const SwapConfirmation = ({ route, navigation }) => {
     // const requestState = useSelector((state) => state.loadStateReducer.loadStatus.SWAP);
-    //TODO: configure error message if request was unsuccessful
-    //TODO: missing dove asset
 
-    const onButtonPress = () => {
-        navigation.navigate('Schedule');
-    };
+    const onButtonPress = () => navigation.popToTop();
 
     return (
-        <View
+        <LinearGradient
+            colors={[coloredBackgroundGradient1, coloredBackgroundGradient2]}
             style={{
-                backgroundColor: 'rgb(108, 207, 212)',
                 flex: 1,
-                width: '100%',
-                alignItems: 'center',
+                borderRadius: 20,
+                padding: 10,
                 paddingTop: 40,
+                alignItems: 'center',
             }}
         >
             <Icon name="alert-circle-outline" height={250} width={250} fill="#000" />
@@ -31,12 +33,14 @@ export const SwapConfirmation = ({ route, navigation }) => {
                     <Text>Your request has been sent!</Text>
                     <Text>Once your request has been</Text>
                     <Text>accepted, you will be notified.</Text>
-                    <Text>Return to Schedule</Text>
                 </View>
-                <Button onPress={onButtonPress} style={{ margin: 10, width: 200 }}>
-                    Return to Schedule
-                </Button>
+                <CustomButton
+                    text="Return"
+                    type={buttonTypes.CONFIRM}
+                    onPress={onButtonPress}
+                    styling={{ height: 42, width: 180 }}
+                />
             </Card>
-        </View>
+        </LinearGradient>
     );
 };

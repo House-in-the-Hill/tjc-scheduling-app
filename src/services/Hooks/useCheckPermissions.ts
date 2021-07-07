@@ -15,15 +15,9 @@ export const useCheckPermissions = async () => {
         if (permissionStatus.status !== 'granted') {
             permissionStatus = await Permissions.askAsync(Permissions.NOTIFICATIONS);
         }
-        //shaun's code
         pushToken =
             permissionStatus.status === 'granted' &&
             (await Notifications.getExpoPushTokenAsync()).data;
-        // if (permissionStatus.status !== 'granted') {
-        //     pushToken = null;
-        // } else {
-        //     pushToken = (await Notifications.getExpoPushTokenAsync()).data;
-        // }
         savePushToken(accesskey, userId, pushToken);
     } catch (err) {
         console.log('err', err);

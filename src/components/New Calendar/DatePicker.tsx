@@ -43,6 +43,7 @@ const Picker = ({
 
 export const DatePicker = ({ onTilePress, selectedDates, initialTasks, onBlur }) => {
     //TODO: detect if press occured outside calendar, and close datepicker on outside press
+    //Change background color to closer match the Ui kitten stuff
     const [isPickerVisible, setIsPickerVisible] = useState(false);
     const [displayedMonth, setDisplayedMonth] = useState(new Date());
 
@@ -77,7 +78,9 @@ export const DatePicker = ({ onTilePress, selectedDates, initialTasks, onBlur })
                         : styles.dropDown
                 }
             >
-                <Text category="s1">{displayedText}</Text>
+                <Text category="h3" style={{ paddingLeft: 3 }}>
+                    {displayedText}
+                </Text>
                 <Icon
                     name="arrow-ios-downward-outline"
                     width={20}

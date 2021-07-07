@@ -9,7 +9,7 @@ export const DayNameRow = () => {
     for (let i = 0; i < dayNameArray.length; i++) {
         dayNameArray[i] = (
             <View key={i} style={styles.tiles}>
-                <Text status="basic" category="h6">
+                <Text status="basic" category="h3">
                     {AbbrevDays[i]}
                 </Text>
             </View>

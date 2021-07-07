@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Icon, Text } from '@ui-kitten/components';
 
+//unused
 export const ModalHeader = ({ goBack, closeModal }) => {
     return (
         <View

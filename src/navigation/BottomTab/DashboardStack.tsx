@@ -7,7 +7,11 @@ const Stack = createStackNavigator();
 export const DashboardStack = (props) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Dashboard" component={DashboardScreen} />
+            <Stack.Screen
+                name="Dashboard"
+                component={DashboardScreen}
+                options={() => ({ headerShown: false })}
+            />
         </Stack.Navigator>
     );
 };

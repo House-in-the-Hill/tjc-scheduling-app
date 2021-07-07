@@ -4,8 +4,16 @@ import { Layout, Text, Button, Input, Icon } from '@ui-kitten/components';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { sendSwapRequest } from '../../store/actions/swapActions';
-import { LoadingPage } from '../../components/LoadingPage';
+import { LoadingPage } from '../../components/Unused/LoadingPage';
 import { LoadStateActionTypes } from '../../store/actions';
+import { CustomButton, buttonTypes } from '../../components/CustomButton';
+import {
+    coloredBackgroundGradient1,
+    coloredBackgroundGradient2,
+    nameCardShadowColorHighlighted,
+    optionCardBorderColor,
+} from '../../ui/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export const SwapSummary = ({ route, navigation }) => {
     //TODO: display loading screen after button press
@@ -47,7 +55,10 @@ export const SwapSummary = ({ route, navigation }) => {
             <View style={styles.textContainer}>
                 <Text>Submit a request to the following?</Text>
             </View>
-            <View style={styles.listContainer}>
+            <LinearGradient
+                colors={[coloredBackgroundGradient1, coloredBackgroundGradient2]}
+                style={styles.listContainer}
+            >
                 <FlatList
                     renderItem={renderItem}
                     data={selectedTasks}
@@ -56,10 +67,13 @@ export const SwapSummary = ({ route, navigation }) => {
                     }
                     showsVerticalScrollIndicator={false}
                 />
-                <Button style={styles.button} onPress={onPressHandler}>
-                    Submit
-                </Button>
-            </View>
+                <CustomButton
+                    text="Submit"
+                    styling={{ height: 42, width: 180 }}
+                    onPress={onPressHandler}
+                    type={buttonTypes.CONFIRM}
+                />
+            </LinearGradient>
         </Layout>
     );
 };
@@ -96,17 +110,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
 
-        shadowColor: '#000',
+        shadowColor: nameCardShadowColorHighlighted,
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 0,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.5,
+        shadowRadius: 10 / 2,
 
         elevation: 3,
 
-        borderColor: 'rgb(127, 15, 239)',
+        borderColor: optionCardBorderColor,
         borderWidth: 2,
 
         margin: 5,

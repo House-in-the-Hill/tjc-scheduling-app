@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, Platform } from 'react-native';
 
 import { SignUpScreenProps } from '../../shared/models';
-import { Screen } from '../../components/Screen';
+import { Screen } from '../../components/Unused/Screen';
 import {
     Icon,
     Layout,

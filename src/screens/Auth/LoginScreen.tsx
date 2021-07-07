@@ -1,25 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    View,
-    StyleSheet,
-    Image,
-    ScrollView,
-    SafeAreaView,
-    Platform,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View, StyleSheet, Image, ScrollView, Platform } from 'react-native';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { LoginScreenProps } from '../../shared/models';
 import { checkCredentials, LoadStateActionTypes, login } from '../../store/actions';
 import { determineLoadState } from '../../store/helper';
-import { LoadingPage } from '../../components/LoadingPage';
-import { Button, Text, Icon, Layout, Input } from '@ui-kitten/components';
+import { LoadingPage } from '../../components/Unused/LoadingPage';
+import { Text, Icon, Layout, Input } from '@ui-kitten/components';
 import { EmailInput, PasswordInput } from '../../components/Forms';
 import { isValidEmail } from '../../shared/components/';
 import { statusBarHeight } from '../../shared/constants';
+import { CustomButton, buttonTypes } from '../../components/CustomButton';
+import { interactiveColorBlue, mainTextColor } from '../../ui/colors';
 
 //temp imports
 import * as Notifications from 'expo-notifications';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export interface PasswordState {
     value: string;
@@ -33,6 +29,8 @@ export interface EmailState {
     valid: boolean;
     message: string;
 }
+
+//TODO error message styling and QA
 
 export const LoginScreen = (props: LoginScreenProps) => {
     const dispatch = useDispatch();
@@ -142,10 +140,11 @@ export const LoginScreen = (props: LoginScreenProps) => {
     //     };
     // }, []);
 
+    //TODO overlay loading page instead of going to a different component?
     if (loadState === LoadStateActionTypes.LOADING) return <LoadingPage opacity={0.8} />;
 
     return (
-        <SafeAreaView
+        <View
             style={{
                 flex: 1,
                 backgroundColor: 'black',
@@ -153,7 +152,7 @@ export const LoginScreen = (props: LoginScreenProps) => {
             }}
         >
             <Layout>
-                <KeyboardAwareScrollView contentContainerStyle={styles.loginScreen}>
+                <View style={styles.loginScreen}>
                     <ScrollView
                         keyboardShouldPersistTaps="handled"
                         contentContainerStyle={styles.feedbackContainer}
@@ -169,7 +168,11 @@ export const LoginScreen = (props: LoginScreenProps) => {
                         <View style={styles.loginCardContainer}>
                             {errorMessage}
                             <EmailInput
-                                label="Email"
+                                label={() => (
+                                    <Text category="h3" style={{ color: mainTextColor }}>
+                                        Email
+                                    </Text>
+                                )}
                                 value={email.value}
                                 caption={email.valid ? '' : email.message}
                                 onChangeText={(input) =>
@@ -178,42 +181,52 @@ export const LoginScreen = (props: LoginScreenProps) => {
                                 clearInputHandler={clearInputHandler}
                             />
                             <PasswordInput
-                                label="Password"
+                                label={() => (
+                                    <Text category="h3" style={{ color: mainTextColor }}>
+                                        Password
+                                    </Text>
+                                )}
                                 value={password.value}
                                 caption={password.valid ? '' : password.message}
                                 onChangeText={(input) =>
                                     setPassword({ ...password, value: input })
                                 }
                             />
+                            <TouchableOpacity
+                                style={{
+                                    alignItems: 'flex-end',
+                                    width: 300,
+                                }}
+                                onPress={() => props.navigation.navigate('RecoverLogin')}
+                            >
+                                <Text
+                                    category="h3"
+                                    style={{ color: interactiveColorBlue }}
+                                >
+                                    Forgot Password?
+                                </Text>
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.buttonContainer}>
-                            <View style={styles.buttonStyle}>
-                                <Button status={'success'} onPress={verifyLogin}>
-                                    Login!
-                                </Button>
-                            </View>
-                            <View style={styles.buttonStyle}>
-                                <Button
-                                    onPress={() =>
-                                        props.navigation.navigate('RecoverLogin')
-                                    }
-                                >
-                                    Recover Account
-                                </Button>
-                            </View>
+                            <CustomButton
+                                text="Login"
+                                onPress={verifyLogin}
+                                styling={{ height: 42, width: 180 }}
+                                type={buttonTypes.CONFIRM}
+                            />
                         </View>
                     </ScrollView>
-                </KeyboardAwareScrollView>
+                </View>
             </Layout>
-        </SafeAreaView>
+        </View>
     );
 
     //helper functions
 
     function createErrorMessage(msg): React.ReactNode {
         return (
-            <Text category={'h6'} status={'danger'}>
+            <Text category="h3" status={'danger'}>
                 {msg}
             </Text>
         );
@@ -261,9 +274,5 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: '100%',
-    },
-    buttonStyle: {
-        width: '40%',
-        margin: 2,
     },
 });

@@ -5,16 +5,13 @@ import { DashboardStack } from './DashboardStack';
 import { ScheduleStack } from './ScheduleStack';
 import { SettingsStack } from './SettingsStack';
 import { Icon, BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
-
-import { ActivityFeedStack } from './ActivityFeedStack';
+import { bottomTabHeight } from '../../shared/constants/componentDimensions';
+import { NotificationStack } from './NotificationStack';
 
 const Tab = createBottomTabNavigator();
 
 const icons = {
-    // feedIcon: (props) => (
-    //     <Icon name="bar-chart-outline" height={30} width={30} fill="#000000" />
-    // ),
-    feed: (props) => <Icon name="bar-chart-outline" {...props} />,
+    notifications: (props) => <Icon name="bar-chart-outline" {...props} />,
     dashboard: (props) => <Icon name="clipboard-outline" {...props} />,
     schedule: (props) => <Icon name="calendar-outline" {...props} />,
     settings: (props) => <Icon name="settings-outline" {...props} />,
@@ -28,10 +25,11 @@ const BottomTabBar = ({ navigation, state }) => {
         <BottomNavigation
             selectedIndex={state.index}
             onSelect={(index) => navigation.navigate(state.routeNames[index])}
+            style={{ height: bottomTabHeight }}
         >
-            <BottomNavigationTab title="Feed" icon={icons.feed} />
             <BottomNavigationTab title="Dashboard" icon={icons.dashboard} />
             <BottomNavigationTab title="Schedule" icon={icons.schedule} />
+            <BottomNavigationTab title="Notifications" icon={icons.notifications} />
             <BottomNavigationTab title="Settings" icon={icons.settings} />
         </BottomNavigation>
     );
@@ -49,27 +47,27 @@ export const BottomTabs = () => {
         <NavigationContainer>
             <Tab.Navigator
                 lazy={false}
-                initialRouteName="Feed"
+                initialRouteName="Dashboard"
                 tabBar={(props) => <BottomTabBar {...props} />}
             >
-                <Tab.Screen
-                    name="Feed"
-                    component={ActivityFeedStack}
-                    // to add badges to the icon:
-                    // options={{
-                    //     tabBarIcon: icons.feedIcon,
-                    //     tabBarBadge: '1',
-                    // }}
-                />
                 <Tab.Screen name="Dashboard" component={DashboardStack} />
                 <Tab.Screen
                     name="Schedule"
                     component={ScheduleStack}
                     options={({ route }) => ({
                         tabBarVisible: getTabBarVisibility(route),
-                        // tabBarVisible: false,
                     })}
                 />
+                <Tab.Screen
+                    name="Notifications"
+                    component={NotificationStack}
+                    // to add badges to the icon:
+                    // options={{
+                    //     tabBarIcon: icons.feedIcon,
+                    //     tabBarBadge: '1',
+                    // }}
+                />
+
                 <Tab.Screen name="Settings" component={SettingsStack} />
             </Tab.Navigator>
         </NavigationContainer>

@@ -15,10 +15,11 @@ import {
 import { useSelector } from 'react-redux';
 import { Entypo } from '@expo/vector-icons';
 import { ProfileScreenProps } from '../../shared/models';
-import { Screen } from '../../components/Screen';
+import { Screen } from '../../components/Unused/Screen';
 import { openDrawerAction } from '../../shared/components';
 import { Text, Layout } from '@ui-kitten/components';
 
+//unused
 export const ProfileScreen = (props: ProfileScreenProps) => {
     const { email, firstName, lastName, church } = useSelector(
         ({ profileReducer }) => profileReducer.profile,
